@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 import { Contact } from './types/interfaces';
-import AppContacts from 'components/AppContacts.vue';
-import AppChat from 'components/AppChat.vue';
+import AppContacts from './components/AppContacts.vue';
+import AppChat from './components/AppChat.vue';
 import mockMessages from './assets/messages';
 
 interface State {

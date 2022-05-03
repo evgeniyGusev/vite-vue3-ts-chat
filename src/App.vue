@@ -1,17 +1,9 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
+import { Contact } from './types/interfaces';
 import AppContacts from 'components/AppContacts.vue';
 import AppChat from 'components/AppChat.vue';
 import mockMessages from './assets/messages';
-
-interface Contact {
-  id?: number,
-  name?: string,
-  username?: string,
-  avatar?: string,
-  isOnline?: boolean,
-  messages?: any[],
-}
 
 interface State {
   contacts: Contact[] | [],
@@ -71,5 +63,17 @@ fetchContacts();
 </script>
 
 <template>
-  <h1>жопа</h1>
+  <div class="app">
+    <app-contacts
+      :is-load-error="data.isLoadContactsError"
+      :contacts="data.contacts"
+      :checked-contact-name="data.checkedContact ? data.checkedContact.name : ''"
+      @set-contact="setCheckedContact"
+      @reload="fetchContacts"
+    />
+    <app-chat
+      :checked-contact="data.checkedContact"
+      @send-message="pushMessage"
+    />
+  </div>
 </template>

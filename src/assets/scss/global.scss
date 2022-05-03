@@ -1,0 +1,36 @@
+@import "mixins";
+
+html,
+body,
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Avenir, Roboto, sans-serif;
+  transition: all .25s;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 100vw;
+  min-height: 100vh;
+  padding: 30px;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+button {
+  @include button-reset();
+}
+
+ul {
+  @include ul-reset();
+}
+
+input {
+  @include input-reset();
+}

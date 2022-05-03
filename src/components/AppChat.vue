@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { reactive, computed } from 'vue';
+import {reactive, computed, ComputedRef} from 'vue';
 import { Contact } from '../types/interfaces';
+import { EmptyMessage, ContactStatus } from '../types/types';
 
 interface State {
   message: string
@@ -8,7 +9,7 @@ interface State {
 }
 
 const props = defineProps<{
-  checkedContact: Contact
+  checkedContact?: Contact
 }>();
 
 const emit = defineEmits(['send-message'])
@@ -20,12 +21,12 @@ const data: State = reactive({
 });
 
 //COMPUTED
-const getIsListVisible = computed(() => props.checkedContact?.messages?.length);
-const getEmptyMessage = computed(() => props.checkedContact && (!this.checkedContact.messages || !this.checkedContact.messages.length) ? 'Отправьте первое сообщение' : '⇽ Выберите, кому хотите написать');
-const getContactStatus = computed(() => data.isContactTyping ? 'Печатает...' : (props.checkedContact?.isOnline ? 'Онлайн' : 'Был в сети недавно'));
+const getIsListVisible: ComputedRef<number | undefined> = computed(() => props.checkedContact?.messages?.length);
+const getEmptyMessage: ComputedRef<EmptyMessage> = computed(() => props.checkedContact && (!props.checkedContact.messages || !props.checkedContact.messages.length) ? 'Отправьте первое сообщение' : '⇽ Выберите, кому хотите написать');
+const getContactStatus: ComputedRef<ContactStatus> = computed(() => data.isContactTyping ? 'Печатает...' : (props.checkedContact?.isOnline ? 'Онлайн' : 'Был в сети недавно'));
 
 //methods
-const sendMessage = () => {
+const sendMessage: Function = (): void => {
   if (data.message) {
     let date = new Date();
 

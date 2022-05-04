@@ -9,7 +9,7 @@ interface State {
 }
 
 const props = defineProps<{
-  checkedContact?: Contact
+  checkedContact?: Contact | null
 }>();
 
 const emit = defineEmits(['send-message'])
@@ -26,7 +26,7 @@ const getEmptyMessage: ComputedRef<EmptyMessage> = computed(() => props.checkedC
 const getContactStatus: ComputedRef<ContactStatus> = computed(() => data.isContactTyping ? 'Печатает...' : (props.checkedContact?.isOnline ? 'Онлайн' : 'Был в сети недавно'));
 
 //methods
-const sendMessage: Function = (): void => {
+const sendMessage = (): void => {
   if (data.message) {
     let date = new Date();
 
@@ -74,7 +74,7 @@ const sendMessage: Function = (): void => {
 
       <ul v-else class="messages">
         <li
-            v-for="(message, i) in checkedContact.messages"
+            v-for="(message, i) in checkedContact?.messages"
             :key="i"
             :class="['message', !message.inbox && '_sent']"
         >

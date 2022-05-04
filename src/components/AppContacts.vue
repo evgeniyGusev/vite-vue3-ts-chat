@@ -41,7 +41,7 @@ const setContact = (contact: Contact): void => {
             {{ contact.name }}
           </div>
           <div class="last-message">
-            {{ contact.messages.length ? contact.messages.at(-1).value : 'Нет сообщений' }}
+            {{ contact?.messages?.length ? contact.messages.at(-1).value : 'Нет сообщений' }}
           </div>
         </div>
       </li>

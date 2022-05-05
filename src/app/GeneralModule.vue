@@ -1,21 +1,20 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
-import { Contact } from './types/interfaces';
-import AppContacts from './components/AppContacts.vue';
-import AppChat from './components/AppChat.vue';
-import mockMessages from './assets/messages';
+import { Contact } from '../types/interfaces';
+import mockMessages from './messages';
+// components
+import { AppContacts } from '../widgets/contacts';
+import { AppChat } from '../widgets/chat';
 
 interface State {
   contacts: Contact[] | [],
   checkedContact: Contact | null,
-  isLoadContactsError: boolean,
 }
 
 // STATE
 const data: State = reactive({
   contacts: [],
   checkedContact: null,
-  isLoadContactsError: false,
 });
 
 // METHODS
@@ -27,8 +26,6 @@ const pushMessage = (message: string): void => {
 }
 
 async function fetchContacts() {
-  data.isLoadContactsError = false;
-
   try {
     const response = await fetch('https://jsonplaceholder.typicode.com/users');
 
@@ -50,12 +47,8 @@ async function fetchContacts() {
           value: mockMessages[Math.floor(Math.random() * mockMessages.length)],
         })),
       }));
-    } else {
-      data.isLoadContactsError = true;
     }
-  } catch {
-    data.isLoadContactsError = true;
-  }
+  } catch {}
 }
 
 // LOGIC
@@ -65,11 +58,8 @@ fetchContacts();
 <template>
   <div class="app">
     <app-contacts
-      :is-load-error="data.isLoadContactsError"
       :contacts="data.contacts"
-      :checked-contact-name="data.checkedContact ? data.checkedContact.name : ''"
       @set-contact="setCheckedContact"
-      @reload="fetchContacts"
     />
     <app-chat
       :checked-contact="data.checkedContact"
